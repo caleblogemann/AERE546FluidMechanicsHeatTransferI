@@ -1,0 +1,103 @@
+\documentclass[11pt, oneside]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{AERE546}
+\usepackage{xspace}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+AER E 546 Fluid Mechanics and Heat Transfer I \\
+Homework 1
+}}
+
+%\lstinputlisting[language=MATLAB]{H01_23.m}
+\begin{enumerate}
+  \item[\#1]
+    \item[(a)]
+      How many `data' points are needed to obtain a third order accurate
+      polynomial approximation?
+      Derive a finite difference formula for $\partial T/\partial x$ that is
+      third order accurate in $\Delta x$.
+      Use only the minimum number of points.
+
+
+    \item[(b)]
+      Derive the second order accurate centered difference formula for
+      $\pd[2]{T}{x}$.
+
+  \item[\#2]
+    \item[(a)]
+      The equation for a damped oscillator is
+      \[
+        \ddot{Y} + \sigma \dot{Y} + \omega^2 Y = 0.
+      \]
+      Let the non-dimensional frequency be $\omega = 1$.
+      Consider the two damping rates $\sigma=0.0$ and $\sigma=0.5$.
+      Solve this by RK2, out to $t = 32$, with the intial conditions $Y(0) = 1$
+      and $\dot{Y}(0) = 0$.
+      The time-step can be $\Delta t = 32/N$, where $N$ is the number of
+      integration points.
+      Plot solutions with $N = 21, 101, 301$.
+      What is the analytical solution?
+      Compare your numerical solutions to the exact result.
+
+      First I will compute the analytical solution to this differential
+      equation.
+      This can be done by finding the characteristic polynomial of the equation,
+      which is
+      \[
+        r^2 + \sigma r + 1 = 0.
+      \]
+      Using the quadractic formula, we see that the roots of this polynomial
+      are $r = -\frac{\sigma}{2} \pm \frac{\sqrt{\sigma^2 - 4}}{2}$.
+      When $\sigma = 0.0$, the roots are $r = \pm i$.
+      In the case of complex roots the general solution will be
+      \[
+        Y(t) = c_1 \cos{t} + c_2 \sin{t}.
+      \]
+      Using the intial conditions we see that the exact solution is
+      \[
+        Y(t) = \cos{t}.
+      \]
+
+      When $\sigma = 0.5$ the roots are $r = -\frac{1}{4} \pm \frac{\sqrt{15}}{4} i$.
+      In this case the general solution is
+      \[
+        Y(t) = e^{-\frac{1}{4}t} \p{c_1 \cos{\frac{\sqrt{15}}{4} t} + c_2 \sin{\frac{\sqrt{15}}{4} t}}
+      \]
+      and the exact solution with boundary conditions is
+      \[
+        Y(t) = e^{-\frac{1}{4}t} \cos{\frac{\sqrt{15}}{4} t}.
+      \]
+
+      Now in order to solve this equation numerically with RK2, we first need to
+      transform this second order differential equation into a system of first
+      order differential equations.
+      To do this let $Z = \dot{Y}$, then the system becomes
+      \begin{align*}
+        \dot{Y} &= Z \\
+        \dot{Z} &= -\sigma Z - \omega^2 Y
+      \end{align*}
+      This is in the form $\dot{x} = RHS(x)$ where
+      \begin{align*}
+        x &= \br{Y, Z}^T \\
+        RHS(x) &= br{x_2, -\sigma x_2 - \omega^2 x_1}^T.
+      \end{align*}
+
+
+
+    \item[(b)]
+      The equation for a nonlinear spring (without damping) is
+      \[
+        \ddot{Y} + Y - BY^3 = 0.
+      \]
+      Solve by RK2 out to $t = 32$ with the intial conditions $Y(0) = 1$ and
+      $\dot{Y}(0) = 0$.
+      Plot $Y(t)$ for $B = 0.2, 0.6, 0.9, 0.999$.
+      Chose $N$ large enough to get an accurate solution; that will depend on
+      the value of $B$.
+
+  \item[\#3]
+    Repeat the linear spring computation (ex. 2.a) with AB2.
+    What does the solution for $\sigma=0.0$ tell you about the stability of AB2?
+\end{enumerate}
+\end{document}
