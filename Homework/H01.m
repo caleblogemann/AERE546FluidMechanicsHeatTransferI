@@ -11,24 +11,30 @@ RHSFunc = @(t, x) [x(2), -sigma*x(2) - x(1)];
 n1 = 21;
 sol1 = RK2(RHSFunc, x0, n1, tFinal);
 plot(linspace(0, 32, n1+1), sol1(:,1));
+title('Linear Spring, N = 21');
 saveas(gcf, 'Figures/01_01.png', 'png');
 n2 = 101;
 sol2 = RK2(RHSFunc, x0, n2, tFinal);
 plot(linspace(0, 32, n2+1), sol2(:,1));
+title('Linear Spring, N = 101');
 saveas(gcf,'Figures/01_02.png', 'png');
 n3 = 301;
 sol3 = RK2(RHSFunc, x0, n3, tFinal);
 plot(linspace(0, 32, n3+1), sol3(:,1));
+title('Linear Spring, N = 301');
 saveas(gcf,'Figures/01_03.png', 'png');
 
 exactSolFunc = @(t) cos(t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
 plot(linspace(0, 32, 1000), exactSol);
+title('Linear Spring, Exact Solution');
 saveas(gcf,'Figures/01_04.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
     linspace(0, 32, n3+1), sol3(:,1), 'b+',...
     linspace(0, 32, 1000), exactSol, 'k');
+legend('N = 101', 'N = 301', 'Exact Solution');
+title('Linear Spring');
 saveas(gcf,'Figures/01_05.png', 'png');
 
 sigma = 0.5;
@@ -38,24 +44,30 @@ RHSFunc = @(t, x) [x(2), -sigma*x(2) - x(1)];
 n1 = 21;
 sol1 = RK2(RHSFunc, x0, n1, tFinal);
 plot(linspace(0, 32, n1+1), sol1(:,1));
+title('Damped Linear Spring, N = 21');
 saveas(gcf,'Figures/01_06.png', 'png');
 n2 = 101;
 sol2 = RK2(RHSFunc, x0, n2, tFinal);
 plot(linspace(0, 32, n2+1), sol2(:,1));
+title('Damped Linear Spring, N = 101');
 saveas(gcf,'Figures/01_07.png', 'png');
 n3 = 301;
 sol3 = RK2(RHSFunc, x0, n3, tFinal);
 plot(linspace(0, 32, n3+1), sol3(:,1));
+title('Damped Linear Spring, N = 301');
 saveas(gcf,'Figures/01_08.png', 'png');
 
 exactSolFunc = @(t) exp(-sigma/2*t).*cos(sqrt(15)/4 * t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
 plot(linspace(0, 32, 1000), exactSol);
+title('Damped Linear Spring, Exact Solution');
 saveas(gcf,'Figures/01_09.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
     linspace(0, 32, n3+1), sol3(:,1), 'b+',...
     linspace(0, 32, 1000), exactSol, 'k');
+legend('N = 101', 'N = 301', 'Exact Solution');
+title('Damped Linear Spring');
 saveas(gcf,'Figures/01_10.png', 'png');
 
 % Problem 2b
@@ -106,24 +118,36 @@ RHSFunc = @(t, x) [x(2), -sigma*x(2) - x(1)];
 n1 = 21;
 sol1 = AB2(RHSFunc, x0, n1, tFinal);
 plot(linspace(0, 32, n1+1), sol1(:,1));
+title('Linear Spring, N = 21');
 saveas(gcf, 'Figures/01_15.png', 'png');
 n2 = 101;
 sol2 = AB2(RHSFunc, x0, n2, tFinal);
 plot(linspace(0, 32, n2+1), sol2(:,1));
+title('Linear Spring, N = 101');
 saveas(gcf,'Figures/01_16.png', 'png');
 n3 = 301;
 sol3 = AB2(RHSFunc, x0, n3, tFinal);
 plot(linspace(0, 32, n3+1), sol3(:,1));
+title('Linear Spring, N = 301');
 saveas(gcf,'Figures/01_17.png', 'png');
+
+n4 = 1000;
+sol4 = AB2(RHSFunc, x0, n4, tFinal);
+plot(linspace(0, 32, n4+1), sol4(:,1));
+title('Linear Spring, N = 1000');
+saveas(gcf,'Figures/01_26.png', 'png');
 
 exactSolFunc = @(t) cos(t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
 plot(linspace(0, 32, 1000), exactSol);
+title('Linear Spring, Exact Solution');
 saveas(gcf,'Figures/01_18.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
     linspace(0, 32, n3+1), sol3(:,1), 'b+',...
     linspace(0, 32, 1000), exactSol, 'k');
+legend('N = 101', 'N = 301', 'Exact Solution');
+title('Linear Spring');
 saveas(gcf,'Figures/01_19.png', 'png');
 
 sigma = 0.5;
@@ -133,22 +157,34 @@ RHSFunc = @(t, x) [x(2), -sigma*x(2) - x(1)];
 n1 = 21;
 sol1 = AB2(RHSFunc, x0, n1, tFinal);
 plot(linspace(0, 32, n1+1), sol1(:,1));
+title('Damped Linear Spring, N = 21');
 saveas(gcf,'Figures/01_20.png', 'png');
 n2 = 101;
 sol2 = AB2(RHSFunc, x0, n2, tFinal);
 plot(linspace(0, 32, n2+1), sol2(:,1));
+title('Damped Linear Spring, N = 101');
 saveas(gcf,'Figures/01_21.png', 'png');
 n3 = 301;
 sol3 = AB2(RHSFunc, x0, n3, tFinal);
 plot(linspace(0, 32, n3+1), sol3(:,1));
+title('Damped Linear Spring, N = 301');
 saveas(gcf,'Figures/01_22.png', 'png');
+
+n4 = 1000;
+sol4 = AB2(RHSFunc, x0, n4, tFinal);
+plot(linspace(0, 32, n4+1), sol4(:,1));
+title('Damped Linear Spring, N = 1000');
+saveas(gcf,'Figures/01_25.png', 'png');
 
 exactSolFunc = @(t) exp(-sigma/2*t).*cos(sqrt(15)/4 * t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
 plot(linspace(0, 32, 1000), exactSol);
+title('Damped Linear Spring, Exact Solution');
 saveas(gcf,'Figures/01_23.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
     linspace(0, 32, n3+1), sol3(:,1), 'b+',...
     linspace(0, 32, 1000), exactSol, 'k');
+title('Damped Linear Spring');
+legend('N = 101', 'N = 301', 'Exact Solution');
 saveas(gcf,'Figures/01_24.png', 'png');
