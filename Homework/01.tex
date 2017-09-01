@@ -23,10 +23,9 @@ Homework 1
       approximation, as the taylor series for a function, $f$ with four coefficients
       is of the following form.
       \[
-        f(x_0) + f'(x_0) (x-x_0) + \frac{1}{2} f''(x_0) (x - x_0)^2 + 
-        \frac{1}{6} f'''(x_0) (x - x_0)^3 + O((x - x_0)^4)
+        f\p{x_0} + f'\p{x_0} \p{x-x_0} + \frac{1}{2} f''\p{x_0} \p{x - x_0}^2 + \frac{1}{6} f'''\p{x_0} \p{x - x_0}^3 + O\p{\p{x - x_0}^4}
       \]
-      Note that this polynomial has errors of order $(x - x_0)^4$, so the
+      Note that this polynomial has errors of order $\p{x - x_0}^4$, so the
       approximation is third order accurate.
 
       In order to derive a finite difference formula for $\pd{T}{x}$ that is
@@ -69,12 +68,12 @@ Homework 1
 
       Now that we have a polynomial approximation of
       \[
-        p(x) = a + b(x - x_0) + c(x - x_0)^2 + d (x - x_0)^3
+        p(x) = a + b\p{x - x_0} + c\p{x - x_0}^2 + d \p{x - x_0}^3
       \]
       where the values of $a$, $b$, $c$, and $d$ were computed above.
       We can now compute the first derivative of this approximation, which is
       \[
-        p'(x) = b + 2c (x - x_0) + 3 d(x - x_0)^2.
+        p'(x) = b + 2c \p{x - x_0} + 3 d\p{x - x_0}^2.
       \]
       The first derivative at $x_0$ is thus $b$, or $p'(x_0) = b$.
       Therefore a third order approximation of the first derivative at the
@@ -93,31 +92,31 @@ Homework 1
       $f_{-1}$, $f_0$, and $f_1$ respectively.
       The third order accurate polynomial approximation will be of the form
       \[
-        a + b (x - x_0) + c (x - x_0)^2
+        a + b \p{x - x_0} + c \p{x - x_0}^2
       \]
       Note that the second derivative of this approximation is always $c$, so
       the formula for $c$ will also be the centered finite difference for the
       second derivative of second order.
       Finding this approximation amounts to solving the following three equations.
       \begin{gather*}
-        f_{-1} = a - b \Delta x + c (\Delta x)^2 \\
+        f_{-1} = a - b \Delta x + c \p{\Delta x}^2 \\
         f_0 = a \\
-        f_1 = a + b \Delta x + c (\Delta x)^2
+        f_1 = a + b \Delta x + c \p{\Delta x}^2
       \end{gather*}
       Clearly $a = f_0$.
       The first and third equations can be summed to find $c$.
       \begin{gather*}
-        f_{-1} + f_1 = 2f_0 + 2 c (\Delta x)^2 \\
-        c = \frac{f_{-1} - f_0 + f_1}{2 (\Delta x)^2}
+        f_{-1} + f_1 = 2f_0 + 2 c \p{\Delta x}^2 \\
+        c = \frac{f_{-1} - f_0 + f_1}{2 \p{\Delta x}^2}
       \end{gather*}
       Thus we don't even need to solve for $b$ because the second order 
       central finite difference for the second derivative is
       \[
-        \frac{f_{-1} - f_0 + f_1}{2 (\Delta x)^2}
+        \frac{f_{-1} - f_0 + f_1}{2 \p{\Delta x}^2}
       \]
 
   \item[\#2]
-    \item[(a)]
+    \item[(a)] % Done
       The equation for a damped oscillator is
       \[
         \ddot{Y} + \sigma \dot{Y} + \omega^2 Y = 0.
@@ -175,6 +174,38 @@ Homework 1
         RHS(x) &= br{x_2, -\sigma x_2 - \omega^2 x_1}^T.
       \end{align*}
 
+      The following is a method for running RK2 given a function to evaluate the RHS.\@
+      \lstinputlisting[language=MATLAB]{RK2.m}
+
+      The following script now uses the previous function to run RK2 for the
+      undamped and damped linear spring.
+      \lstinputlisting[language=MATLAB, lastline=71]{H01.m}
+      The following images are produced for the undamped linear spring, that is
+      when $\sigma = 0.0$.
+      Note that for $N = 21$, the numerical solution diverges from the exact solution, but
+      for $N = 101$ and $N = 301$, the numerical solution is close to exact
+      solution and gets more accurate as $N$ is increased.
+      \begin{center}
+        \includegraphics[scale=.6]{Figures/01_01.png}
+        \includegraphics[scale=.6]{Figures/01_02.png}
+        \includegraphics[scale=.6]{Figures/01_03.png}
+        \includegraphics[scale=.6]{Figures/01_04.png}
+        \includegraphics[scale=.6]{Figures/01_05.png}
+      \end{center}
+
+      For the damped case, i.e.\ when $\sigma = 0.5$, the following images are
+      produced.
+      Note that the numerical solution for $N = 21$ doesn't grow rapidly
+      and diverge, but is doesn't accurately represent the exact solution.
+      Again as $N$ is increased the accuracy of the numerical solution increases.
+      \begin{center}
+        \includegraphics[scale=.6]{Figures/01_06.png}
+        \includegraphics[scale=.6]{Figures/01_07.png}
+        \includegraphics[scale=.6]{Figures/01_08.png}
+        \includegraphics[scale=.6]{Figures/01_09.png}
+        \includegraphics[scale=.6]{Figures/01_10.png}
+      \end{center}
+
     \item[(b)]
       The equation for a nonlinear spring (without damping) is
       \[
@@ -186,8 +217,21 @@ Homework 1
       Chose $N$ large enough to get an accurate solution; that will depend on
       the value of $B$.
 
+      First in order to apply RK2 to this problem we must turn this second order
+      ODE into a system of first order ODEs.
+      In order to accomplish this let $\dot{Y} = Z$, then we have the following
+      system
+      \begin{align*}
+        \dot{Y} &= Z \\
+        \dot{Z} &= -Y - BY^3
+      \end{align*}
+
+      We now use the same RK2 method shown in part (a), but with the RHS given
+      above.
+
   \item[\#3]
     Repeat the linear spring computation (ex. 2.a) with AB2.
     What does the solution for $\sigma=0.0$ tell you about the stability of AB2?
+
 \end{enumerate}
 \end{document}

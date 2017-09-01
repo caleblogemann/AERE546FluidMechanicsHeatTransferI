@@ -26,8 +26,9 @@ saveas(gcf,'Figures/01_03.png', 'png');
 
 exactSolFunc = @(t) cos(t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
-plot(linspace(0, 32, 1000), exactSol);
-title('Linear Spring, Exact Solution');
+plot(linspace(0, 32, 1000), exactSol, linspace(0, 32, n1+1), sol1(:,1));
+title('Linear Spring');
+legend('Exact Solution', 'N = 21');
 saveas(gcf,'Figures/01_04.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
@@ -59,8 +60,9 @@ saveas(gcf,'Figures/01_08.png', 'png');
 
 exactSolFunc = @(t) exp(-sigma/2*t).*cos(sqrt(15)/4 * t);
 exactSol = exactSolFunc(linspace(0, 32, 1000));
-plot(linspace(0, 32, 1000), exactSol);
-title('Damped Linear Spring, Exact Solution');
+plot(linspace(0, 32, 1000), exactSol, linspace(0, 32, n1+1), sol1(:,1));
+title('Damped Linear Spring');
+legend('Exact Solution', 'N = 21');
 saveas(gcf,'Figures/01_09.png', 'png');
 
 plot(linspace(0, 32, n2+1), sol2(:,1), 'ro',...
