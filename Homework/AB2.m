@@ -11,7 +11,7 @@ function [result] = AB2(RHSFunc, x0, nTimeSteps, tFinal)
     for i = 2:nTimeSteps
         t = (i-1)*deltaT;
         rhsNew = RHSFunc(t, result(i,:));
-        result(i+1, :) = result(i,:) + deltaT*(1.5*rhsNew + 0.5*rhsOld);
+        result(i+1, :) = result(i,:) + deltaT*(1.5*rhsNew - 0.5*rhsOld);
         rhsOld = rhsNew;
     end
 end
