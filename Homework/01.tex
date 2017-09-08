@@ -179,18 +179,18 @@ Homework 1
 
       The following script now uses the previous function to run RK2 for the
       undamped and damped linear spring.
-      \lstinputlisting[language=MATLAB, lastline=71]{H01.m}
+      \lstinputlisting[language=MATLAB, lastline=73]{H01.m}
       The following images are produced for the undamped linear spring, that is
       when $\sigma = 0.0$.
       Note that for $N = 21$, the numerical solution diverges from the exact solution, but
       for $N = 101$ and $N = 301$, the numerical solution is close to exact
       solution and gets more accurate as $N$ is increased.
       \begin{center}
-        \includegraphics[scale=.6]{Figures/01_01.png}
-        \includegraphics[scale=.6]{Figures/01_02.png}
-        \includegraphics[scale=.6]{Figures/01_03.png}
-        \includegraphics[scale=.6]{Figures/01_04.png}
-        \includegraphics[scale=.6]{Figures/01_05.png}
+        \includegraphics[scale=.4]{Figures/01_01.png}
+        \includegraphics[scale=.4]{Figures/01_02.png}
+        \includegraphics[scale=.4]{Figures/01_03.png}
+        \includegraphics[scale=.4]{Figures/01_04.png}
+        \includegraphics[scale=.7]{Figures/01_05.png}
       \end{center}
 
       For the damped case, i.e.\ when $\sigma = 0.5$, the following images are
@@ -199,14 +199,14 @@ Homework 1
       and diverge, but is doesn't accurately represent the exact solution.
       Again as $N$ is increased the accuracy of the numerical solution increases.
       \begin{center}
-        \includegraphics[scale=.6]{Figures/01_06.png}
-        \includegraphics[scale=.6]{Figures/01_07.png}
-        \includegraphics[scale=.6]{Figures/01_08.png}
-        \includegraphics[scale=.6]{Figures/01_09.png}
-        \includegraphics[scale=.6]{Figures/01_10.png}
+        \includegraphics[scale=.4]{Figures/01_06.png}
+        \includegraphics[scale=.4]{Figures/01_07.png}
+        \includegraphics[scale=.4]{Figures/01_08.png}
+        \includegraphics[scale=.4]{Figures/01_09.png}
+        \includegraphics[scale=.7]{Figures/01_10.png}
       \end{center}
 
-    \item[(b)]
+    \item[(b)] % Done
       The equation for a nonlinear spring (without damping) is
       \[
         \ddot{Y} + Y - BY^3 = 0.
@@ -226,12 +226,54 @@ Homework 1
         \dot{Z} &= -Y - BY^3
       \end{align*}
 
-      We now use the same RK2 method shown in part (a), but with the RHS given
+      The following script now uses the same RK2 method shown in part (a), but with the RHS given
       above.
+      \lstinputlisting[language=MATLAB, firstline=75, lastline=108]{H01.m}
+      In this script I used $N = 1000$ for $B = 0.2, 0.6, 0.9$ and $N = 3000$ for
+      $B = .999$.
+      $B$ is controlling the nonlinearity of the spring and the larger that
+      contribution is the smaller the timestep needs to be.
+      The following images are produced.
+      \begin{center}
+        \includegraphics[scale=.4]{Figures/01_11.png}
+        \includegraphics[scale=.4]{Figures/01_12.png}
+        \includegraphics[scale=.4]{Figures/01_13.png}
+        \includegraphics[scale=.4]{Figures/01_14.png}
+      \end{center}
 
   \item[\#3]
     Repeat the linear spring computation (ex. 2.a) with AB2.
     What does the solution for $\sigma=0.0$ tell you about the stability of AB2?
+
+    I implemented the following function to run AB2 method for any RHS function.
+    \lstinputlisting[language=MATLAB]{AB2.m}
+    The following script now repeats exercise 2.a with this function instead of RK2.
+    \lstinputlisting[language=MATLAB, firstline=110]{H01.m}
+
+    The following images were produced in the undamped case.
+    Note that for $N = 21$ the solution diverges rapidly, much more rapidly
+    than for RK2.
+    This shows that adams-bashforth has a smaller area of stability as the time
+    step needs to be much smaller in order to get an accurate solution.
+    However for $N = 101$ and $N = 301$ the solutions are relatively accurate if
+    less so than for RK2.
+    \begin{center}
+      \includegraphics[scale=.4]{Figures/01_15.png}
+      \includegraphics[scale=.4]{Figures/01_16.png}
+      \includegraphics[scale=.4]{Figures/01_17.png}
+      \includegraphics[scale=.4]{Figures/01_18.png}
+      \includegraphics[scale=.7]{Figures/01_19.png}
+    \end{center}
+
+    The following images were produced for the damped case
+    Note that the solution diverges for $N = 21$.
+    \begin{center}
+      \includegraphics[scale=.4]{Figures/01_20.png}
+      \includegraphics[scale=.4]{Figures/01_21.png}
+      \includegraphics[scale=.4]{Figures/01_22.png}
+      \includegraphics[scale=.4]{Figures/01_23.png}
+      \includegraphics[scale=.7]{Figures/01_24.png}
+    \end{center}
 
 \end{enumerate}
 \end{document}
