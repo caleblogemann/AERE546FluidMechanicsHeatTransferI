@@ -94,8 +94,8 @@ Homework 1
       \[
         a + b \p{x - x_0} + c \p{x - x_0}^2
       \]
-      Note that the second derivative of this approximation is always $c$, so
-      the formula for $c$ will also be the centered finite difference for the
+      Note that the second derivative of this approximation is always $2c$, so
+      the formula for $2$ times $c$ will also be the centered finite difference for the
       second derivative of second order.
       Finding this approximation amounts to solving the following three equations.
       \begin{gather*}
@@ -107,12 +107,12 @@ Homework 1
       The first and third equations can be summed to find $c$.
       \begin{gather*}
         f_{-1} + f_1 = 2f_0 + 2 c \p{\Delta x}^2 \\
-        c = \frac{f_{-1} - f_0 + f_1}{2 \p{\Delta x}^2}
+        c = \frac{f_{-1} - 2f_0 + f_1}{2 \p{\Delta x}^2}
       \end{gather*}
       Thus we don't even need to solve for $b$ because the second order 
       central finite difference for the second derivative is
       \[
-        \frac{f_{-1} - f_0 + f_1}{2 \p{\Delta x}^2}
+        \frac{f_{-1} - 2f_0 + f_1}{\p{\Delta x}^2}
       \]
 
   \item[\#2]
@@ -274,6 +274,5 @@ Homework 1
       \includegraphics[scale=.4]{Figures/01_23.png}
       \includegraphics[scale=.7]{Figures/01_24.png}
     \end{center}
-
 \end{enumerate}
 \end{document}
