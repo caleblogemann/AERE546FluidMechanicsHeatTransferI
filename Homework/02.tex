@@ -12,12 +12,71 @@ Homework 2
 %\lstinputlisting[language=MATLAB]{H01_23.m}
 \begin{enumerate}
   \item % #1
+    The heat fin equation is the linear o.d.e.
+    \[
+      \d[2]{T}{x} = MT
+    \]
+    where $M$ is a sort of thermal mass.
+    First write the finite difference equation in terms of a tridiagonal matrix.
+    Solve that equation using the Thomas algorithm (Gaussian elimination) for:
     \begin{enumerate}
       \item[(a)]
+        Compute a solution with the boundary conditions $T(0) = 1$ and
+        $T(1) = 0$.
+        This corresponds to a fin that is between a hot and a cold reservoir.
+        In non-dimensional terms, the heat flux into the cold reservoir is
+        $-\d{T}{x}$ at $x = 1$.
+        Obtain the heat flux as $x = 1$ for $M = 1, 5, 9$. Use enough grid
+        points to obtain 1\% accuracy.
+        Provide your three numerical values of the heat flux.
+        Provide a single graph with curves of $T(x)$ for the 3 values of $M$.
+
+
 
       \item[(b)]
+        Compute a solution with the boundary conditions
+        $T(0) = 1$, $\d{T(1)}{x} = 0$.
+        This corresponds to a fin that is insulated at one end.
+        Solve for the temperature, $T(1)$, at the insulated end for
+        $M = 1, 5, 9$.
+        Provide your three numerical values of $T(1)$.
+        Also plot $T(x)$ for $M = 9$ with each pair of boundary conditions and
+        compare to the exact solution.
+
       \item[(c)]
+        Add a distributed heat source: Compute and plot a solution of the
+        non-homogeneous equation
+        \[
+          \d[2]{T}{x} = MT - 100 x^2 \p{1 - x}^2
+        \]
+        with $M = 9$, $T(0) = 1$ and $\d{T(1)}{x} = 0$.
     \end{enumerate}
+
   \item % #2
+    \begin{enumerate}
+      \item[(i)]
+        What type of p.d.e.\ is
+        \[
+          \mpd[2]{\phi}{\partial x \partial y} + \phi = 25?
+        \]
+
+      \item[(ii)]
+        What type of p.d.e.\ does the velocity potential, $\phi$, satisfy if
+        \[
+          \pd{u}{x} + \pd{v}{y} = 0
+        \]
+        with
+        \[
+          u = \pd{\phi}{x} \qquad v = \pd{\phi}{y}?
+        \]
+
+      \item[(iii)]
+        The boundary layer momentum equation is
+        \[
+          u \pd{u}{x} + v \pd{u}{y} = \frac{1}{Re} \pd[2]{u}{y}
+        \]
+        where $Re$ is the Reynolds number.
+        What type is this equation?
+    \end{enumerate}
 \end{enumerate}
 \end{document}
