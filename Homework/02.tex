@@ -20,7 +20,7 @@ Homework 2
     First write the finite difference equation in terms of a tridiagonal matrix.
     Solve that equation using the Thomas algorithm (Gaussian elimination) for:
     \begin{enumerate}
-      \item[(a)]
+      \item[(a)] % Done
         Compute a solution with the boundary conditions $T(0) = 1$ and
         $T(1) = 0$.
         This corresponds to a fin that is between a hot and a cold reservoir.
@@ -30,8 +30,6 @@ Homework 2
         points to obtain 1\% accuracy.
         Provide your three numerical values of the heat flux.
         Provide a single graph with curves of $T(x)$ for the 3 values of $M$.
-
-
 
         First I will establish a some notation.
         I will discretize the fin into $N + 1$ points.
@@ -100,7 +98,28 @@ Homework 2
         This is a tridiagonal system which can be solved easily with the
         Thomas algorithm.
 
-      \item[(b)]
+        The following function evaluates the Thomas algorithm on a tridiagonal system.
+        \lstinputlisting[language=MATLAB]{tridiag.m}
+        The following script uses the previous function to run the Thomas
+        algorithm on the tridiagonal system that was found earlier.
+        \lstinputlisting[language=MATLAB, lastline=33]{H02.m}
+        This script outputs the following image, which shows the three plots
+        for $M = 1, 5, 9$.
+        \begin{center}
+          \includegraphics[scale=.5]{Figures/02_01.png}
+        \end{center}
+        The values of the heat flux at $x = 1$ are given to be
+        \begin{align*}
+          M &= 1 \qquad \eval{\p{-\d{T}{x}}}{x = 1}{} = 0.850933420029442 \\
+          M &= 5 \qquad \eval{\p{-\d{T}{x}}}{x = 1}{} = 0.483548793162072 \\
+          M &= 9 \qquad \eval{\p{-\d{T}{x}}}{x = 1}{} = 0.299532256416841
+        \end{align*}
+        Note that these values are found by evaluating
+        \[
+          \eval{\p{-\d{T}{x}}}{x = 1}{} \approx \frac{T_{n-1} - T_n}{\Delta x}
+        \]
+
+      \item[(b)] % Done
         Compute a solution with the boundary conditions
         $T(0) = 1$, $\d{T(1)}{x} = 0$.
         This corresponds to a fin that is insulated at one end.
@@ -170,6 +189,21 @@ Homework 2
         algorithm, which was shown in part (a).
         The following script using the Thomas algorithm to solve this system for
         $M = 1, 5, 9$.
+        \lstinputlisting[language=MATLAB, firstline=35, lastline=62]{H02.m}
+        The script output the following images.
+        Note that the numerical solutions and the exact solutions are
+        almost indistinguishable.
+        \begin{center}
+          \includegraphics[scale=0.5]{Figures/02_02.png}
+          \includegraphics[scale=0.5]{Figures/02_03.png}
+        \end{center}
+        The following are the numerical values found for $T(1)$ for
+        $M = 1, 5, 9$.
+        \begin{align*}
+          M &= 1 \qquad T(1) = 0.645597948372887 \\
+          M &= 5 \qquad T(1) = 0.209066847236553 \\
+          M &= 9 \qquad T(1) = 0.097878298010251
+        \end{align*}
 
       \item[(c)]
         Add a distributed heat source: Compute and plot a solution of the
@@ -178,6 +212,51 @@ Homework 2
           \d[2]{T}{x} = MT - 100 x^2 \p{1 - x}^2
         \]
         with $M = 9$, $T(0) = 1$ and $\d{T(1)}{x} = 0$.
+
+        In this problem we can start with the tridiagonal system given in (b)
+        however the heat source requires changing the RHS.\
+
+        Now the equation for each point $i$ becomes
+        \[
+          T_{i - 1} + \p{- 2 - M\Delta x^2}T_i + T_{i+1} = -100x_i^2 \p{1 - x_i}^2 \Delta x^2.
+        \]
+        The equation for $i = 1$ is
+        \[
+         \p{- 2 - M\Delta x^2}T_1 + T_2 = -100x_1^2 \p{1 - x_1}^2 \Delta x^2 - 1
+        \]
+        and the equation for $i = N$ is
+        \[
+          T_{N - 1} + \p{-1 - M\Delta x^2}T_N = -100x_N^2 \p{1 - x_N}^2 \Delta x^2.
+        \]
+        This create the following tridiagonal system.
+        \[
+          \begin{bmatrix}
+            -2 - \Delta x^2 & 1 & & & 0 \\
+            1 & -2 - \Delta x^2 & 1 &  \\
+             & \ddots & \ddots & \ddots &  \\
+             &  & 1 & -2 - \Delta x^2  & 1  \\
+            0 &  &  & 1 & -1 - \Delta x^2
+          \end{bmatrix}
+          \begin{bmatrix}
+            T_1 \\
+            T_2 \\
+            \vdots \\
+            T_{N - 1} \\
+            T_{N}
+          \end{bmatrix}
+          =
+          \begin{bmatrix}
+            -1 - 100x_1^2 \p{1 - x_1}^2 \Delta x^2 \\
+            -100x_2^2 \p{1 - x_2}^2 \Delta x^2\\
+            \vdots \\
+            -100x_{N-1}^2 \p{1 - x_{N-1}}^2 \Delta x^2\\
+            -100x_N^2 \p{1 - x_N}^2 \Delta x^2
+          \end{bmatrix}
+        \]
+        The following script solves the previous tridiagonal system using the
+        Thomas algorithm.
+        \lstinputlisting[language=MATLAB, firstline=73]{H02.m}
+
     \end{enumerate}
 
   \item % #2
