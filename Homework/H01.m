@@ -1,4 +1,4 @@
-% Problem 2a
+%% Problem 2a 
 tFinal = 32;
 % initial conditions
 x0 = [1, 0];
@@ -72,7 +72,7 @@ legend('N = 101', 'N = 301', 'Exact Solution');
 title('Damped Linear Spring');
 saveas(gcf,'Figures/01_10.png', 'png');
 
-% Problem 2b
+%% Problem 2b
 tFinal = 32;
 x0 = [1,0];
 B = 0.2;
@@ -107,7 +107,7 @@ plot(linspace(0,32,n+1), sol(:,1));
 title('Nonlinear Spring, B = 0.999')
 saveas(gcf, 'Figures/01_14.png', 'png');
 
-% Problem 3
+%% Problem 3
 tFinal = 32;
 % initial conditions
 x0 = [1, 0];

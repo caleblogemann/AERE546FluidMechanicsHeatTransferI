@@ -23,7 +23,7 @@ Homework 1
       approximation, as the taylor series for a function, $f$ with four coefficients
       is of the following form.
       \[
-        f\p{x_0} + f'\p{x_0} \p{x-x_0} + \frac{1}{2} f''\p{x_0} \p{x - x_0}^2 + \frac{1}{6} f'''\p{x_0} \p{x - x_0}^3 + O\p{\p{x - x_0}^4}
+        f\p{x_0} + f'\p{x_0} \p{x-x_0} + \frac{1}{2} f''\p{x_0} \p{x - x_0}^2 + \frac{1}{6} f^{(3)}\p{x_0} \p{x - x_0}^3 + O\p{\p{x - x_0}^4}
       \]
       Note that this polynomial has errors of order $\p{x - x_0}^4$, so the
       approximation is third order accurate.
@@ -115,7 +115,7 @@ Homework 1
         \frac{f_{-1} - f_0 + f_1}{2 \p{\Delta x}^2}
       \]
 
-  \item[\#2]
+  \item[\#2] % Done
     \item[(a)] % Done
       The equation for a damped oscillator is
       \[
@@ -230,7 +230,7 @@ Homework 1
       above.
       \lstinputlisting[language=MATLAB, firstline=75, lastline=108]{H01.m}
       In this script I used $N = 1000$ for $B = 0.2, 0.6, 0.9$ and $N = 3000$ for
-      $B = .999$.
+      $B = 0.999$.
       $B$ is controlling the nonlinearity of the spring and the larger that
       contribution is the smaller the timestep needs to be.
       The following images are produced.
@@ -241,7 +241,7 @@ Homework 1
         \includegraphics[scale=.4]{Figures/01_14.png}
       \end{center}
 
-  \item[\#3]
+  \item[\#3] % Done
     Repeat the linear spring computation (ex. 2.a) with AB2.
     What does the solution for $\sigma=0.0$ tell you about the stability of AB2?
 
@@ -265,7 +265,7 @@ Homework 1
       \includegraphics[scale=.7]{Figures/01_19.png}
     \end{center}
 
-    The following images were produced for the damped case
+    The following images were produced for the damped case.
     Note that the solution diverges for $N = 21$.
     \begin{center}
       \includegraphics[scale=.4]{Figures/01_20.png}
@@ -274,6 +274,5 @@ Homework 1
       \includegraphics[scale=.4]{Figures/01_23.png}
       \includegraphics[scale=.7]{Figures/01_24.png}
     \end{center}
-
 \end{enumerate}
 \end{document}
