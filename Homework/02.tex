@@ -205,7 +205,7 @@ Homework 2
           M &= 9 \qquad T(1) = 0.097878298010251
         \end{align*}
 
-      \item[(c)]
+      \item[(c)] % Done
         Add a distributed heat source: Compute and plot a solution of the
         non-homogeneous equation
         \[
@@ -256,18 +256,27 @@ Homework 2
         The following script solves the previous tridiagonal system using the
         Thomas algorithm.
         \lstinputlisting[language=MATLAB, firstline=73]{H02.m}
-
+        The script outputs the following image.
+        \begin{center}
+          \includegraphics[scale=0.5]{Figures/02_04.png}
+        \end{center}
     \end{enumerate}
 
   \item % #2
     \begin{enumerate}
-      \item[(i)]
+      \item[(i)] % Done
         What type of p.d.e.\ is
         \[
           \mpd[2]{\phi}{\partial x \partial y} + \phi = 25?
         \]
 
-      \item[(ii)]
+        This is a hyperbolic p.d.e. because the descriminant is
+        greater than zero.
+        \[
+          b^2 - 4ac = 1^2 - 4 \times 0 \times 0 = 1 > 0
+        \]
+
+      \item[(ii)] % Done
         What type of p.d.e.\ does the velocity potential, $\phi$, satisfy if
         \[
           \pd{u}{x} + \pd{v}{y} = 0
@@ -277,13 +286,29 @@ Homework 2
           u = \pd{\phi}{x} \qquad v = \pd{\phi}{y}?
         \]
 
-      \item[(iii)]
+        This p.d.e. can be rewritten as
+        \[
+          \pd[2]{\phi}{x} + \pd[2]{\phi}{y} = 0
+        \]
+        This is an elliptic p.d.e. because the descriminant is less than zero
+        as shown below.
+        \[
+          b^2 - 4ac = 0 - 4\times 1 \times 1 = -4 < 0
+        \]
+
+      \item[(iii)] % Done
         The boundary layer momentum equation is
         \[
           u \pd{u}{x} + v \pd{u}{y} = \frac{1}{Re} \pd[2]{u}{y}
         \]
         where $Re$ is the Reynolds number.
         What type is this equation?
+
+        This is a parabolic p.d.e because the descriminant is zero as shown
+        below.
+        \[
+          b^2 - 4ac = 0^2 - 4 \times 0 \times \frac{1}{Re} = 0
+        \]
     \end{enumerate}
 \end{enumerate}
 \end{document}
