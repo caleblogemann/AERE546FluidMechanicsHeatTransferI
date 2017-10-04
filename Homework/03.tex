@@ -1,0 +1,126 @@
+\documentclass[11pt, oneside]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{AERE546}
+\usepackage{xspace}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+AER E 546 Fluid Mechanics and Heat Transfer I \\
+Homework 3
+}}
+
+%\lstinputlisting[language=MATLAB]{H01_23.m}
+\begin{enumerate}
+  \item % #1
+    A slab of metal is initially at uniform temperature.
+    One end is suddenly raised to a high temperature, while the other end is kept cool.
+    Compute the penetration of heat into the slab as a function of time.
+    In dimensional form the temperature diffusion equation, initial and boundary values are
+    \[
+      \pd{T^*}{t_*} = \kappa \pd[2]{T^*}{x_*} \qquad T^*(x,0) = 0 \qquad T^*(0, t) = 0, T^*(L, t) = T_w.
+    \]
+    Non-dimensionalize temperature by $T_w$ and length by $L$ and time by $L^2/\kappa$.
+    Integrate by Euler Explicit, up to a non-dimensional time of $0.3$.
+    Use $N_x = 121$ grid points in $x$.
+    Let $\Delta t = \alpha \Delta x^2$.
+    Try a value of $\alpha > 0.5$.
+    What happens?
+    Why?
+    How small must $\alpha$ be to obtain an accurate solution?
+    Provide a single figure with line plots of the solution at time intervals of 0.04.
+    Note that the computational time-step will be smaller than 0.04.
+    The bulk heat transfer coefficient is defined as
+    \[
+      h_T = \frac{Q}{T(1) - T(0)}
+    \]
+    where $T = \eval{\pd{T}{x}}{x = 1}{}$ is the heat flux into the slab.
+    Plot $h_T$ as a function of time for $t > 0.01$.
+
+  \item % #2
+    A slab is heated by shining a laser on it.
+    The laser is shut off and the heat diffuses throughout the slab.
+    Its ends are insulated.
+    This is modeled as the non-dimensional problem: solve
+    \[
+      \pd{T}{x} = \pd*{\kappa \pd{T}{x}}{x}
+    \]
+    in the interval $0 \le x \le 1$, with the initial condition
+    \[
+      T(x, 0) = \frac{e^{-\p{x - 0.5}^2/\sigma^2}}{\sigma \sqrt{\pi}}, \quad \sigma = 0.1
+    \]
+    The slab length is normalized to unity and $\sigma$ characterizes the
+    region heated by the laser.
+    Consider a material with variable diffusivity.
+    Let
+    \[
+      \kappa = 0.1 + 2.0 e^{-5x}
+    \]
+    The no-flux boundary condition
+    \[
+      \pd{T}{x}(0, t) = 0 = \pd{T}{x}(1, t)
+    \]
+    is applied at the insulated ends.
+    Use second order Runge-Kutta.
+    Solve with about $N_x = 250$ grid points in $x$.
+    Choose a small time-step to obtain an accurate solution.
+    Integrate up to a non-dimensional time of 0.05.
+    Provide a single plot containing the initial condition and curves showing
+    the solution $T(x)$ at time intervals of 0.01.
+    Plot $\dintt{0}{1}{T(x)}{x}$ versus time.
+    What should the value of the integral be?
+
+  \item % #3
+    Now consider the case where one end of the slab is insulated and the other
+    is held at constant temperature:
+    \[
+      \pd{T}{x}(0) = 0 \quad T(1) = 1
+    \]
+    solve the constant diffusivity, diffusion equation as in the first problem,
+    but use Crank-Nicholson.
+    \begin{enumerate}
+      \item[(a)]
+        Set $\Delta t = \alpha \Delta x^2$.
+        Try a couple of relatively large value of $\alpha$ and see whether your
+        calculation converges, or blows up (should it?).
+
+      \item[(b)]
+        Provide a single figure with plots of $T(x)$ at intervalue of $0.04$ up to $t = 0.4$.
+        Explain why your solution makes sense.
+        The bulk heat transfer coefficient is defined as
+        \[
+          h_T = \frac{Q}{T(1) - T(0)}
+        \]
+        where $T = \eval{\pd{T}{x}}{x = 1}{}$ is the heat flux into the slab.
+        Plot $h_T$ as a function of time for $t > 0.01$.
+    \end{enumerate}
+
+  \item % #4
+    \begin{enumerate}
+      \item[(a)]
+        Is the scheme
+        \[
+          U_i^{n+1} = U_i^n - \frac{C}{2} \p{U_{i+1}^n - U_{i-1}^n}
+        \]
+        stable, conditionally stable or absolutely unstable?
+        C is a constant.
+
+      \item[(b)]
+        Is the scheme
+        \[
+          U_i^{n+1} = U_i^n - \frac{C}{2} \p{U_{i+1}^{n+1} - U_{i-1}^{n+1}}
+        \]
+        stable, conditionally stable or absolutely unstable?
+        C is a constant.
+
+      \item[(c)] % Done
+        Which method would be called implicit?
+
+        The scheme in (b) would be called implicit as the value of $U^{n+1}_i$
+        depends on the values $U^{n+1}_{i+1}$ and $U^{n+1}_{i-1}$.
+        The solution for a point at time $t^{n+1}$ depends on the points next
+        to it at the same time.
+        This means that a system of equations must be solved in order to update
+        the solution.
+    \end{enumerate}
+\end{enumerate}
+\end{document}
