@@ -36,6 +36,24 @@ Homework 3
     where $T = \eval{\pd{T}{x}}{x = 1}{}$ is the heat flux into the slab.
     Plot $h_T$ as a function of time for $t > 0.01$.
 
+    First I will nondimensionalize this equation by doing the following substitutions.
+    \begin{gather}
+      T^* = T_w T \\
+      x^* = L x \\
+      t_* = \frac{L^2}{\kappa} t
+    \end{gather}
+    Now the differential equation can be simplified as follows.
+    \begin{gather}
+      \pd{T^*}{t_*} = \kappa \pd[2]{T^*}{x_*} \\
+      T_w \pd{T}{t_*} = \kappa T_w \pd[2]{T}{x_*} \\
+      \frac{T_w \kappa}{L^2} \pd{T}{t} = \frac{\kappa T_w}{L^2} \pd[2]{T}{x} \\
+      \pd{T}{t} = \pd[2]{T}{x}
+    \end{gather}
+    The initial and boundary conditions are given as
+    \[
+      T(x, 0) = 0 \qquad T(0, t) = 0 \qquad T(1, t) = T_2
+    \]
+
   \item % #2
     A slab is heated by shining a laser on it.
     The laser is shut off and the heat diffuses throughout the slab.
