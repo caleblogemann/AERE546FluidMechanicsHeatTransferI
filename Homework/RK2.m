@@ -1,9 +1,7 @@
-function [result] = RK2(RHSFunc, x0, nTimeSteps, tFinal)
-    nEquations = length(x0);
-    result = zeros(nTimeSteps+1, nEquations);
+function [result] = RK2(RHSFunc, x0, nTimeSteps, deltaT)
+    n = length(x0);
+    result = zeros(nTimeSteps+1, n);
     result(1,:) = x0;
-
-    deltaT = tFinal/nTimeSteps;
 
     for i = 1:nTimeSteps
         t = (i-1)*deltaT;
