@@ -1,0 +1,61 @@
+\documentclass[11pt, oneside]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{AERE546}
+\usepackage{xspace}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+AER E 546 Fluid Mechanics and Heat Transfer I \\
+Homework 4
+}}
+
+%\lstinputlisting[language=MATLAB]{H01_23.m}
+\begin{enumerate}
+  \item % #1
+    The laser heating in the second problem of homework 3 should probably be
+    modeled as a localized hot-spot in two dimensions - assuming that the slab
+    is thin, so it is heated uniformly across its thickness.
+    Solve the (non-dimensional) diffusion equation
+    \[
+      \pd{T}{t} = \nabla^2 T \qquad \nabla^2 = \pd[2]{}{x} + \pd[2]{}{y}
+    \]
+    in the square region $0 \le x, y \le 1$.
+    Form the semi discrete equations and integrate in time by RK2.
+    Choose a suitable $\Delta t$.
+    Submit only the algorithm part of your code.
+
+    The walls are kept cool, i.e. $T = 0$ on the boundaries.
+    The initial hot spot is represented by
+    \[
+      T(x, y) = \frac{1}{\pi \sigma^2} e^{-r^2/\sigma^2} \qquad r^2 = (x - 0.25)^2 + (y - 0.25)^2, \sigma = 0.1
+    \]
+    \begin{itemize}
+      \item Let $Nx = Ny = 201$. Provide a plot of contour lines of the
+        soltution at $t = 0.02$ and $t = 0.1$.
+      \item How long $(t = ??)$ must you wait for the maximum temperature to
+        drop to $1\%$ of its intial value?
+    \end{itemize}
+
+    
+  \item % #2
+    Explain why ADI is called approximate factorization - i.e. make sure you
+    understand the formal basis for the method.
+
+    Use the ADI scheme with Euler implicit time-stepping to solve the same heat
+    equation, as in the previous problem, in the same square, $0 \le x, y \le 1$.
+    But now, initially $T = 0$ everywhere, except on the lower wall.
+    The boundary conditions are
+    \begin{gather*}
+      T = \sin[2]{2 \pi x} \text{ on } y = 0; 0 \le x \le 1 \\
+      T = 0 \text{ on } x = 0 \text{ and } x = 1; 0 \le y \le 1 \\
+      T = 0 \text{ on } y = 1; 0 \le x \le 1
+    \end{gather*}
+    Integrate to $t = 0.25$ and plot temperature contours at
+    $t = 0.002, 0.01, 0.04$ and $t = 0.1$.
+    Provide a line plot of $T(1/2, 1/2)$ versus $t$; has the solution converged
+    to steady state?
+    If so, what equation has been solved?
+    Provide the algorithm part of your code - with brief comment lines, showing
+    how you implemented ADI.
+\end{enumerate}
+\end{document}
