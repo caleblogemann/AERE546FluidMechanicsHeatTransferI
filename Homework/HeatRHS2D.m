@@ -1,9 +1,9 @@
-function [result] = HeatRHS2D(t, T)
-    n = length(T);
-    result = zeros(n, 1);
-    for i = 1:n
-        result(i) = 
+function [result] = HeatRHS2D(t, T0, Nx, Ny, deltaX, deltaY, reshapeFunc, nFunc)
+    result = zeros(1,Nx*Ny);
+    T = reshapeFunc(T0);
+    for i = 2:Nx-1
+        for j = 2:Ny-1
+            result(nFunc(i, j)) = (T(i+1,j) - 2*T(i, j) + T(i-1,j))/deltaX^2 + (T(i, j+1) - 2*T(i, j) + T(i,j-1))/deltaY^2;
+        end
     end
-    
-RHSFunc = @(t, T) arrayfun(@(i) (T(i+1) - 2*T(i) + T(i-1))/deltaX^2 + (T(max(i+Nx) - 2*T(i) + T(i - Nx))/deltaY^2, 1:length(T));
 end
