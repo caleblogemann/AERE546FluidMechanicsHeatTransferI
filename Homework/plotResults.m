@@ -1,5 +1,5 @@
 for n = 1:10:nTimeSteps+1
-    test = reshape(rk2sol(n,:), [Nx, Ny]);
+    test = reshapeFunc(adiSol(n,:));
     contour(x, y, test);
-    pause(.01/nTimeSteps);
+    pause(.0000001);
 end

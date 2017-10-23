@@ -1,96 +1,79 @@
-function [u, Ux, Uy, k] = ADI(deltaX, deltaT, N, T, f, g)
-    deltaX = 1/(N+1);
-    x = @(i) i*h;
-    y = @(j) j*h;
-
-    % find k such that k = O(h)
-    Nt = ceil(T/h);
-    k = T/Nt;
-
-    t = @(n) n*k;
-
-    % create functions to swap between column-wise ordering and i,j ordering
-    %kFun = @(i, j) i + (j-1)*N;
-    iFunc = @(n) mod(n, Nx) + Nx*(mod(n, Nx) == 0);
-    jFunc = @(n) (n - iFunc(n))/Nx + 1;
-    iFun = @(k) floor((k-1)/N) + 1;
-    jFun = @(k) mod(k-1,N)+1;
-
-    % permutation matrix to change from natural row wise ordering to natural
+function [u] = ADI(u0, deltaX, deltaY, Nx, Ny, deltaT, nTimeSteps, g)
+    % to change from natural row wise ordering to natural
     % column wise ordering or vice versa
-    % uCol = P*uRow or uRow = P*uCol
-    i = 1:N^2;
-    j = repmat(0:N:N^2-N, 1, N) + kron(1:N,ones(1, N));
-    P = sparse(i, j, ones(1, N^2));
+    % uCol = uRow(rowToCol) or uRow = uCol(colToRow)
+    rowToCol = repmat(0:Ny:Nx*Ny-Ny, 1, Ny) + kron(1:Ny,ones(1, Nx));
+    colToRow = repmat(0:Nx:Nx*Ny-Nx, 1, Nx) + kron(1:Nx,ones(1, Ny));
 
-    % matrix to represent diffusion in one direction
-    % D*uRow = Dx2*U and D*uCol = Dy2*U
-    e = ones(N, 1);
-    tridiagonal = 1/h^2*spdiags([e, -2*e, e], [-1, 0, 1], N, N);
-    D = kron(speye(N), tridiagonal);
+    % matrix to represent diffusion in row/x direction
+    % Dx*uRow = Dx2*uRow
+    e = ones(Nx, 1);
+    tridiagonal = 1/(deltaX^2)*spdiags([e, -2*e, e], [-1, 0, 1], Nx, Nx);
+    Dx = kron(speye(Ny), tridiagonal);
 
-    % N^2 by N^2 identity matrix
-    I = speye(N^2);
+    % matrix to represent diffusion in col/y direction
+    % Dy*uCol = Dx2*uCol
+    e = ones(Ny, 1);
+    tridiagonal = 1/(deltaY^2)*spdiags([e, -2*e, e], [-1, 0, 1], Ny, Ny);
+    Dy = kron(speye(Nx), tridiagonal);
 
-    % initiate matrix to store u at times 1:Nt
-    u = zeros(N^2, Nt+1);
-    % create initial conditions
-    % vector of x-values for column-wise ordering k = 1:N^2
-    Ux = x(iFun(1:N^2));
-    % vector of y-values for column-wise ordering k = 1:N^2
-    Uy = y(jFun(1:N^2));
-    % find initial values in column-wise ordering
-    u(:, 1) = f(Ux, Uy);
+    I = speye(Nx*Ny);
+
+    % solution at all times
+    % stored in rowwise numbering
+    u = zeros(nTimeSteps, Nx*Ny);
+    u(1,:) = u0;
 
     % create index arrays for boundary
-    % k-indices for bottom boundary in column-wise ordering or
-    % left boundary in row-wise ordering
-    % ie when either x or y is zero
-    zeroIndices = 1:N:N^2;
-    % k-indices for top boundary in column-wise ordering or
-    % right boundary in row-wise ordering
-    % ie when either x or y is one
-    oneIndices = N:N:N^2;
-    for n = 1:1
-        % u starts in column-wise ordering
+    % indices for left boundary in row-wise ordering or
+    zeroIndicesRow = 1:Nx:Nx*Ny;
+    % indices for right boundary in row-wise ordering or
+    oneIndicesRow = Nx:Nx:Nx*Ny;
+    % indices for bottom boundary in column-wise ordering
+    zeroIndicesCol = 1:Ny:Nx*Ny;
+    % indices for top boundary in column-wise ordering
+    oneIndicesCol = Ny:Ny:Nx*Ny;
+    for n = 1:nTimeSteps
         % First stage
-        % (I + k/2 Dy2)*u
-        rhs = (I + k/2*D)*u(:, n);
+        % (I + deltaT/2 Dy2)*u
+        % rhs in column wise ordering
+        rhs = (I + deltaT/2*Dy)*u(n, :)';
+        rhs = rhs(rowToCol);
         % add boundary conditions for y-direction at time t = tn
-        bottomBoundary = k/(2*h^2)*g(t(n-1), x(1:N), 0);
-        topBoundary = k/(2*h^2)*g(t(n-1), x(1:N), 1);
-        rhs(zeroIndices) = rhs(zeroIndices) + bottomBoundary';
-        rhs(oneIndices) = rhs(oneIndices) + topBoundary';
+        bottomBoundary = deltaT/(2*deltaY^2)*g(deltaT*(n-1), deltaX*(0:Nx-1), 0);
+        topBoundary = deltaT/(2*deltaY^2)*g(deltaT*(n-1), deltaX*(0:Nx-1), 1);
+        rhs(zeroIndicesCol) = rhs(zeroIndicesCol) + bottomBoundary';
+        rhs(oneIndicesCol) = rhs(oneIndicesCol) + topBoundary';
+
         % change to row-wise ordering
-        rhs = P*rhs;
-        % add boundary conditions for x-direction at time t = tn + k/2
-        leftBoundary = k/(2*h^2)*g(t(n-1)+k/2, 0, y(1:N));
-        rightBoundary = k/(2*h^2)*g(t(n-1)+k/2, 1, y(1:N));
-        rhs(zeroIndices) = rhs(zeroIndices) + leftBoundary';
-        rhs(oneIndices) = rhs(oneIndices) + rightBoundary';
+        rhs = rhs(colToRow);
+        % add boundary conditions for x-direction at time t = tn + deltaT/2
+        leftBoundary = deltaT/(2*deltaX^2)*g(deltaT*(n-1)+deltaT/2, 0, deltaY*(0:Ny-1));
+        rightBoundary = deltaT/(2*deltaX^2)*g(deltaT*(n-1)+deltaT/2, 1, deltaY*(0:Ny-1));
+        rhs(zeroIndicesRow) = rhs(zeroIndicesRow) + leftBoundary';
+        rhs(oneIndicesRow) = rhs(oneIndicesRow) + rightBoundary';
         % solve for uStar which approximates u at t = tn + k/2
         % uStar is in row-wise ordering
-        tic
-        uStar = (I - k/2*D)\rhs;
+        uStar = (I - deltaT/2*Dx)\rhs;
 
         % second stage
         % rhs row-wise ordering
-        rhs = (I + k/2*D)*uStar;
+        rhs = (I + deltaT/2*Dx)*uStar;
         % add boundary conditions for x-direction at time t = tn + k/2
         % left and right boundaries same as before
-        rhs(zeroIndices) = rhs(zeroIndices) + leftBoundary';
-        rhs(oneIndices) = rhs(oneIndices) + rightBoundary';
+        rhs(zeroIndicesRow) = rhs(zeroIndicesRow) + leftBoundary';
+        rhs(oneIndicesRow) = rhs(oneIndicesRow) + rightBoundary';
         % change to column-wise ordering
-        rhs = P*rhs;
+        rhs = rhs(rowToCol);
         % add boundary conditions for y-direction at time t = tn + k
-        bottomBoundary = k/(2*h^2)*g(t(n-1)+k, x(1:N), 0);
-        topBoundary = k/(2*h^2)*g(t(n-1)+k, x(1:N), 1);
-        rhs(zeroIndices) = rhs(zeroIndices) + bottomBoundary';
-        rhs(oneIndices) = rhs(oneIndices) + topBoundary';
+        bottomBoundary = deltaT/(2*deltaY^2)*g(deltaT*n, deltaX*(0:Nx-1), 0);
+        topBoundary = deltaT/(2*deltaY^2)*g(deltaT*n, deltaX*(0:Nx-1), 1);
+        rhs(zeroIndicesCol) = rhs(zeroIndicesCol) + bottomBoundary';
+        rhs(oneIndicesCol) = rhs(oneIndicesCol) + topBoundary';
         % solve for u at time t = tn + k
-        % u is in column wise ordering
-        u(:,n+1) = (I - k/2*D)\rhs;
-        toc
+        % u is in row wise ordering
+        temp = ((I - deltaT/2*Dy)\rhs);
+        u(n+1,:) = temp(colToRow)';
     end
 end
 
