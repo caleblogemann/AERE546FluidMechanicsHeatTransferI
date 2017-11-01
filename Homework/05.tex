@@ -1,0 +1,87 @@
+\documentclass[11pt, oneside]{article}
+\usepackage[letterpaper, margin=2cm]{geometry}
+\usepackage{AERE546}
+\usepackage{xspace}
+
+\begin{document}
+\noindent \textbf{\Large{Caleb Logemann \\
+AER E 546 Fluid Mechanics and Heat Transfer I \\
+Homework 5
+}}
+
+%\lstinputlisting[language=MATLAB]{H01_23.m}
+\begin{enumerate}
+  \item % #1
+    Solve the Laplace equation
+    \[
+      \partial^2_x \psi + \partial^2_y \psi = 0
+    \]
+    in the domain $0 \le x, y \le 1$, with
+    \begin{gather*}
+      \psi = \sin[2]{3n\pi y} \text{ on } x = 0 \\
+      \psi = \sin[2]{3n\pi x} \text{ on } y = 0 \\
+      \psi = 0 \text{ on } x = 1  \\
+      \psi = 0 \text{ on } y = 1.
+    \end{gather*}
+    Obtain numerical solutions with $n = 1$ and $n = 3$.
+
+    Use Gauss-Seidel with SOR.
+    Stop either when the modulus of the residual either has dropped by a factor
+    of $10^{-4}$ or after 2500 iterations.
+    \begin{itemize}
+      \item Provide the algorithm part of your code.
+      \item Provide contour plots of streamfunctions for each of $15 \times 15$
+        and $151 \times 101$ grids for both $n$ values.
+      \item For the $151 \times 101$ grid and $n = 1$, on a single graph, plot
+        residual versus iteration for each of the relaxation parameters
+        $\lambda = 1$, $\lambda = 0.5$, $\lambda = 1.5$, and $\lambda = 1.95$.
+        Plot as $\log[10]{residual/residual_0}$ versus iteration number.
+        Use the $L_2$ norm
+        \[
+          residual = \norm[L_2]{\Delta \Psi} = \sqrt{\sum{i = 1}{I}{\sum{j = 1}{J}{(\Delta \Psi_{ij}^2)/(I \times J)}}}
+        \]
+    \end{itemize}
+
+  \item % #2
+    Solve the Poisson Equation
+    \[
+      \partial_x^2\psi + \partial^2_y\psi = 70e^{-32(x - 0.5)^2 + (y - 0.1)^2}
+    \]
+    in $0 \le x, y \le 1$, with boundary conditions
+    \begin{gather*}
+      \psi(0, y) = -y \\
+      \psi(1, y) = -y \\
+      \psi(x, 0) = 0 \\
+      \psi(x, 1) = -1
+    \end{gather*}
+    on the grid
+    \begin{gather*}
+      x(j) = \frac{e^{2(j-1)/(J-1)} - 1}{e^2 - 1} \quad 1 \le j \le J \\
+      y(j) = \frac{e^{2(k-1)/(K-1)} - 1}{e^2 - 1} \quad 1 \le k \le K.
+    \end{gather*}
+    \begin{itemize}
+      \item Provide the algorithm part of your code.
+      \item Provide a plot of the grid and a line-contour plot of the converged solution.
+    \end{itemize}
+
+  \item % #3
+    Solve the Poisson equation
+    \[
+      \partial^2_x \psi + \partial^2_y \psi = 2000\p{\sin{4 \pi x} \sin{4 \pi y}}^5
+    \]
+    on the domain $0 \le x \le 1$, $0 \le y \le 1$, with boundary conditions
+    \begin{align*}
+      \psi(x, 0) &= \sin[2]{\pi x} + 5\sin[2]{4\pi x} 10 \sin[2]{8 \pi x} \\
+      \psi(0, y) &= \sin[2]{4\pi y} \\
+      \psi(x, 1) &= 0 \\
+      \psi(1, y) &= 0
+    \end{align*}
+    Use a $151 \times 151$ grid.
+    Submit only the algorithm part of your code.
+    Plot $\log[10]{}$ of the residual - defined at
+    $\norm[L_2]{\Delta \psi}/\norm[L^2]{\Delta \psi(0)}$ - versus iteration.
+    Stop when the residual goes below $10^{-5}$.
+    Provide a contour plot of the converged solution.
+
+\end{enumerate}
+\end{document}
