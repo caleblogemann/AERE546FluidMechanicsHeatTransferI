@@ -11,7 +11,7 @@ Homework 5
 
 %\lstinputlisting[language=MATLAB]{H01_23.m}
 \begin{enumerate}
-  \item % #1
+  \item % #1 Done
     Solve the Laplace equation
     \[
       \partial^2_x \psi + \partial^2_y \psi = 0
@@ -31,8 +31,8 @@ Homework 5
     \begin{itemize}
       \item Provide the algorithm part of your code.
       \item Provide contour plots of streamfunctions for each of $15 \times 15$
-        and $151 \times 101$ grids for both $n$ values.
-      \item For the $151 \times 101$ grid and $n = 1$, on a single graph, plot
+        and $151 \times 151$ grids for both $n$ values.
+      \item For the $151 \times 151$ grid and $n = 1$, on a single graph, plot
         residual versus iteration for each of the relaxation parameters
         $\lambda = 1$, $\lambda = 0.5$, $\lambda = 1.5$, and $\lambda = 1.95$.
         Plot as $\log[10]{residual/residual_0}$ versus iteration number.
@@ -41,6 +41,24 @@ Homework 5
           residual = \norm[L_2]{\Delta \Psi} = \sqrt{\sum{i = 1}{I}{\sum{j = 1}{J}{(\Delta \Psi_{ij}^2)/(I \times J)}}}
         \]
     \end{itemize}
+
+    The following is my algorithm for Gauss-Seidel with SOR.
+    \lstinputlisting[language=MATLAB]{sor.m}
+    The following are the contour plots that for the different values of $n$ and
+    $N$.
+    \begin{center}
+      \includegraphics[scale=0.4]{Figures/05_1.png}
+      \includegraphics[scale=0.4]{Figures/05_2.png}
+      \includegraphics[scale=0.4]{Figures/05_3.png}
+      \includegraphics[scale=0.4]{Figures/05_4.png}
+    \end{center}
+    The following plot shows how the residual decreases with iteration for
+    different values of $\lambda$.
+    Note that only for $\lambda = 1.95$, did Gauss-Seidel with SOR converge
+    within 2500 iterations.
+    \begin{center}
+      \includegraphics[scale=0.7]{Figures/05_5.png}
+    \end{center}
 
   \item % #2
     Solve the Poisson Equation
@@ -64,14 +82,18 @@ Homework 5
       \item Provide a plot of the grid and a line-contour plot of the converged solution.
     \end{itemize}
 
-  \item % #3
+    \begin{center}
+      \includegraphics[scale=0.5]{Figures/05_06.png}
+    \end{center}
+
+  \item % #3 Done
     Solve the Poisson equation
     \[
       \partial^2_x \psi + \partial^2_y \psi = 2000\p{\sin{4 \pi x} \sin{4 \pi y}}^5
     \]
     on the domain $0 \le x \le 1$, $0 \le y \le 1$, with boundary conditions
     \begin{align*}
-      \psi(x, 0) &= \sin[2]{\pi x} + 5\sin[2]{4\pi x} 10 \sin[2]{8 \pi x} \\
+      \psi(x, 0) &= \sin[2]{\pi x} + 5\sin[2]{4\pi x} + 10 \sin[2]{8 \pi x} \\
       \psi(0, y) &= \sin[2]{4\pi y} \\
       \psi(x, 1) &= 0 \\
       \psi(1, y) &= 0
@@ -82,6 +104,16 @@ Homework 5
     $\norm[L_2]{\Delta \psi}/\norm[L^2]{\Delta \psi(0)}$ - versus iteration.
     Stop when the residual goes below $10^{-5}$.
     Provide a contour plot of the converged solution.
+
+    The following is my conjugate gradient algorithm.
+    \lstinputlisting[language=MATLAB]{conjugateGradient.m}
+    The following images show a contour plot of the converged solution and a
+    plot of the residual.
+    The residual decreases as fast as Gauss-Seidel with SOR with weight $\lambda = 1.95$.
+    \begin{center}
+      \includegraphics[scale=0.5]{Figures/05_8.png}
+      \includegraphics[scale=0.5]{Figures/05_9.png}
+    \end{center}
 
 \end{enumerate}
 \end{document}
