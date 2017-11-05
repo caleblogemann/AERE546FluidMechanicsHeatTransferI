@@ -1,4 +1,4 @@
-function [Au] = multByA(u, x, y, deltaX, deltaY)
+function [Au] = multByA2(u, x, y, deltaX, deltaY)
     [I, J] = size(u);
     Au = zeros(I, J);
 

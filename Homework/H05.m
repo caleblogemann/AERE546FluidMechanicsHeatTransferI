@@ -43,6 +43,40 @@ saveas(gcf, 'Figures/05_5.png', 'png')
 hold off
 
 %% Problem 2
+a = 0;
+b = 1;
+c = 0;
+d = 1;
+N = 151;
+I = N;
+J = N;
+deltaXbar = (b - a)/(N + 2);
+deltaYbar = (d - c)/(N + 2);
+x = (exp(2*((1:I) - 1)/(I - 1)) - 1)./(exp(2) - 1);
+y = (exp(2*((1:J) - 1)/(J - 1)) - 1)./(exp(2) - 1);
+xbar = linspace(a+deltaXbar, b-deltaXbar, N);
+ybar = linspace(c+deltaYbar, d-deltaYbar, N);
+m = @(u) multByA2(u, xbar, ybar, deltaXbar, deltaYbar);
+rhsFunc = @(xbar, ybar) -140/(exp(2)-1)^2 * ...
+exp(-32*(((exp(2*xbar) - 1)/(exp(2) - 1) - 0.5)^2 ...
++ ((exp(2*ybar) - 1)/(exp(2) - 1) - 0.1)^2));
+
+rhs = zeros(I*J,1);
+iter = 0;
+for j = 1:J
+    for i = 1:I
+        iter = iter + 1;
+        rhs(iter, 1) = rhsFunc(xbar(i), ybar(j));
+    end
+end
+
+u = solvePoisson(m, rhs, I, J);
+
+contour(x, y, u');
+xlabel('x');
+ylabel('y');
+title('Poisson Equation Solution on Uneven Grid');
+saveas(gcf,'Figures/05_07.png','png');
 
 
 %% Problem 3

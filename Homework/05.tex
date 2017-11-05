@@ -2,6 +2,8 @@
 \usepackage[letterpaper, margin=2cm]{geometry}
 \usepackage{AERE546}
 \usepackage{xspace}
+\newcommand{\xb}{\bar{x}}
+\newcommand{\yb}{\bar{y}}
 
 \begin{document}
 \noindent \textbf{\Large{Caleb Logemann \\
@@ -60,10 +62,10 @@ Homework 5
       \includegraphics[scale=0.7]{Figures/05_5.png}
     \end{center}
 
-  \item % #2
+  \item % #2 Done
     Solve the Poisson Equation
     \[
-      \partial_x^2\psi + \partial^2_y\psi = 70e^{-32(x - 0.5)^2 + (y - 0.1)^2}
+      \partial_x^2\psi + \partial^2_y\psi = 70e^{-32\p{(x - 0.5)^2 + (y - 0.1)^2}}
     \]
     in $0 \le x, y \le 1$, with boundary conditions
     \begin{gather*}
@@ -82,8 +84,33 @@ Homework 5
       \item Provide a plot of the grid and a line-contour plot of the converged solution.
     \end{itemize}
 
+    In order to solve this equation on this new grid we must do a change of
+    variables.
+    Since the new variables $\xb$ and $\yb$ depend only on $x$ and $y$
+    respectively, a new equation can be created on a uniform grid,
+    \[
+      \pd[2]{\xb}{x} \pd{u}{\xb} + \p{\pd{\xb}{x}}^2 \pd[2]{u}{\xb}
+      + \pd[2]{\yb}{y} \pd{u}{\yb} + \p{\pd{\yb}{y}}^2 \pd[2]{u}{\yb}
+      = 70e^{-32\p{(\frac{e^{2\xb} - 1}{e^2 - 1} - 0.5)^2 + (\frac{e^{2\yb} - 1}{e^2 - 1} - 0.1)^2}}
+    \]
+    where
+    \begin{align*}
+      y &= \frac{e^{2\yb} - 1}{e^2 - 1} \\
+      x &= \frac{e^{2\xb} - 1}{e^2 - 1}.
+    \end{align*}
+    Simplifying this equation gives
+    \begin{align*}
+      e^{-4\xb} \p{\pd{u}{\xb} - \frac{1}{2} \pd[2]{u}{\xb}} + e^{-4\yb} \p{\pd{u}{\yb} - \frac{1}{2} \pd[2]{u}{\yb}}
+      = \frac{-140}{\p{e^2 - 1}^2} e^{-32\p{\p{\frac{e^{2\xb} - 1}{e^2 - 1} - 0.5}^2 + \p{\frac{e^{2\yb} - 1}{e^2 - 1} - 0.1}^2}}
+    \end{align*}
+
+    The following functions solve this modified equation.
+    \lstinputlisting[language=MATLAB]{multByA2.m}
+    \lstinputlisting[language=MATLAB]{solvePoisson.m}
+    The following two images show the grid and the contour plot of the solution.
     \begin{center}
-      \includegraphics[scale=0.5]{Figures/05_06.png}
+      \includegraphics[scale=0.3]{Figures/05_06.png}
+      \includegraphics[scale=0.5]{Figures/05_07.png}
     \end{center}
 
   \item % #3 Done
