@@ -78,7 +78,6 @@ ylabel('y');
 title('Poisson Equation Solution on Uneven Grid');
 saveas(gcf,'Figures/05_07.png','png');
 
-
 %% Problem 3
 a = 0;
 b = 1;

@@ -1,0 +1,61 @@
+%% problem 1
+a = 0;
+b = 2;
+c = 0;
+d = 1;
+I = 200;
+J = 181;
+lambda = 1.5;
+deltaX = (b - a)/(I + 2);
+deltaY = (d - c)/(J + 2);
+bt = deltaX/deltaY;
+x = linspace(a + deltaX, b - deltaX, I);
+y = linspace(c + deltaY, d - deltaY, J);
+
+tolerance = 1e-4;
+maxIter = 2500;
+u0 = zeros(I, J);
+[u, k, res] = sor3(lambda, u0, x, y, bt, tolerance, maxIter);
+[X, Y] = meshgrid(x, y);
+contour(X, Y, u', 20, 'k');
+xlabel('x');
+ylabel('y');
+title('Flow through contraction contour plot');
+saveas(gcf, 'Figures/06_01.png', 'png');
+[FX, FY] = gradient(u(1:10:end,1:10:end)');
+quiver(X(1:10:end,1:10:end), Y(1:10:end,1:10:end), -FX, -FY);
+xlabel('x');
+ylabel('y');
+title('Flow through contraction velocity vector plot');
+saveas(gcf, 'Figures/06_02.png', 'png');
+
+%% problem 2
+a = 0;
+b = 2;
+c = 0;
+d = 1;
+I = 200;
+J = 181;
+lambda = 1.9;
+deltaX = (b - a)/(I + 2);
+deltaY = (d - c)/(J + 2);
+bt = deltaX/deltaY;
+x = linspace(a + deltaX, b - deltaX, I);
+y = linspace(c + deltaY, d - deltaY, J);
+
+tolerance = 1e-4;
+maxIter = 2500;
+u0 = zeros(I, J);
+[u, k, res] = sor4(lambda, u0, x, y, bt, tolerance, maxIter);
+[X, Y] = meshgrid(x, y);
+contour(X, Y, u', [-exp(100:-1:-1),0,exp(1:100)], 'k');
+xlabel('x');
+ylabel('y');
+title('Flow around square contour plot');
+saveas(gcf, 'Figures/06_03.png', 'png');
+[FX, FY] = gradient(u(1:10:end,1:10:end)');
+quiver(X(1:10:end,1:10:end), Y(1:10:end,1:10:end), -FX, -FY);
+xlabel('x');
+ylabel('y');
+title('Flow around square velocity vector plot');
+saveas(gcf, 'Figures/06_04.png', 'png');
