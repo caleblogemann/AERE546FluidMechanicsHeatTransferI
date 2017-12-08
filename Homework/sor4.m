@@ -43,7 +43,7 @@ function [u, k, res] = sor4(lambda, u, x, y, bt, tol, maxIter)
                 if ( x(i) >= 0.7 && x(i) <= 1 && y(j) >=0.35 && y(j) <= 0.65)
                     u(i, j) = 0;
                 else
-                    u(i, j) = (1 - lambda)*u(i, j) + lambda*(uip1j + uim1j + bt^2*(uijp1 + uijm1))/(2*(1 + bt^2)) + lambda*w;
+                    u(i, j) = (1 - lambda)*u(i, j) + lambda*(uip1j + uim1j + bt^2*(uijp1 + uijm1))/(2*(1 + bt^2)) + lambda*w/(2*(1 + bt^2));
                 end
             end
         end

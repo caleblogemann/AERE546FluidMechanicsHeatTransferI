@@ -48,7 +48,7 @@ maxIter = 2500;
 u0 = zeros(I, J);
 [u, k, res] = sor4(lambda, u0, x, y, bt, tolerance, maxIter);
 [X, Y] = meshgrid(x, y);
-contour(X, Y, u', [-exp(100:-1:-1),0,exp(1:100)], 'k');
+contour(X, Y, u', [-exp(100:-1:0),-1:0.2:1,exp(0:100)], 'k');
 xlabel('x');
 ylabel('y');
 title('Flow around square contour plot');
